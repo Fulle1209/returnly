@@ -52,8 +52,8 @@ npx expo start
 5. Scan QR-koden med Expo Go.
 
 ## Demovideo
-
-[INDSÆT LINK TIL DEMOVIDEO]
+Demovideo af Returnly:
+youtube.com/shorts/w_qdu6OtezE?is=FVf6eZtvpQuCjAO2&cbrd=1&ucbcb=1
 
 ## Brugerinddragelse
 
