@@ -5,68 +5,119 @@ import React from 'react';
 import {
   View,
   Text,
-  Button
+  Button,
+  Alert
 } from 'react-native';
 
-// Importerer appens fælles styling.
+// Importerer fælles styling.
 import GlobalStyles from '../styles/GlobalStyles';
 
-// Komponenten modtager route fra React Navigation.
+// Komponenten modtager købet via route
+// samt funktionen til at markere det som returneret.
 export default function PurchaseDetailsScreen({
-  route
+  route,
+  navigation,
+  onMarkReturned
 }) {
 
-  // Henter det valgte køb, som blev sendt fra PurchasesScreen.
+  // Henter det valgte køb fra navigationen.
   const { purchase } = route.params;
 
-  // Returnerer detaljesiden.
+
+  // Funktionen kaldes når brugeren markerer varen som returneret.
+  const handleMarkReturned = () => {
+
+    // Opdaterer købet i App.js.
+    onMarkReturned(purchase.id);
+
+    // Viser en bekræftelse.
+    Alert.alert(
+      'Vare returneret',
+      `${purchase.product} er markeret som returneret.`,
+      [
+        {
+          text: 'OK',
+          onPress: () => navigation.goBack(),
+        },
+      ]
+    );
+  };
+
+
+  // Returnerer sidens indhold.
   return (
     <View style={GlobalStyles.container}>
 
-      {/* Viser produktets navn. */}
+      {/* Viser produktnavnet. */}
       <Text style={GlobalStyles.sectionTitle}>
         {purchase.product}
       </Text>
 
-      {/* Viser hvilken butik varen kommer fra. */}
+      {/* Viser butikken. */}
       <Text style={GlobalStyles.text}>
         Butik: {purchase.store}
       </Text>
 
-      {/* Viser produktets pris. */}
-      <Text style={GlobalStyles.text}>
-        Pris: {purchase.price} kr.
-      </Text>
+      {/* Viser prisen hvis den er angivet. */}
+      {purchase.price ? (
+        <Text style={GlobalStyles.text}>
+          Pris: {purchase.price} kr.
+        </Text>
+      ) : null}
 
-      {/* Viser købsdatoen. */}
-      <Text style={GlobalStyles.text}>
-        Købsdato: {purchase.purchaseDate}
-      </Text>
+      {/* Viser købsdato hvis den er angivet. */}
+      {purchase.purchaseDate ? (
+        <Text style={GlobalStyles.text}>
+          Købsdato: {purchase.purchaseDate}
+        </Text>
+      ) : null}
 
       {/* Viser returfristen. */}
       <Text style={GlobalStyles.text}>
         Returfrist: {purchase.returnDeadline}
       </Text>
 
-      {/* Viser enten antal dage tilbage eller at fristen er udløbet. */}
-      <Text style={GlobalStyles.sectionTitle}>
-        {purchase.daysLeft < 0
-          ? 'Returfristen er udløbet'
-          : `${purchase.daysLeft} dage tilbage`}
-      </Text>
 
-      {/* Container omkring returknappen. */}
-      <View style={GlobalStyles.buttonContainer}>
+      {/* Hvis købet allerede er returneret vises status. */}
+      {purchase.returned ? (
 
-        {/* MVP-knap der demonstrerer fremtidig retur-status. */}
-        <Button
-          title="Markér som returneret"
-          onPress={() =>
-            alert('Varen er markeret som returneret')
-          }
-        />
+        <Text style={GlobalStyles.returnedText}>
+          Returneret ✓
+        </Text>
 
-      </View>
+      ) : (
+
+        <>
+          {/* Viser antal dage tilbage. */}
+          <Text style={GlobalStyles.sectionTitle}>
+            {purchase.daysLeft} dage tilbage
+          </Text>
+
+
+          {/* Åbner den nye reminder-screen. */}
+          <View style={GlobalStyles.buttonContainer}>
+            <Button
+              title="Indstil påmindelse"
+              onPress={() =>
+                navigation.navigate(
+                  'ReminderSettings',
+                  { purchase }
+                )
+              }
+            />
+          </View>
+
+
+          {/* Markerer købet som returneret. */}
+          <View style={GlobalStyles.buttonContainer}>
+            <Button
+              title="Markér som returneret"
+              onPress={handleMarkReturned}
+            />
+          </View>
+
+        </>
+      )}
 
     </View>
   );

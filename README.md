@@ -12,24 +12,28 @@ returfrister. Returnly har derfor følgende value proposition:
 
 ## Funktioner
 
-- Oversigt over brugerens onlinekøb
-- Countdown til returfrist
-- Farvekodning af kommende returfrister
-- Detaljeside for hvert køb
-- Manuel registrering af nye køb
-- Automatisk beregning af antal dage til returfrist
-- Import af screenshot via Expo ImagePicker
+- Den nuværende version af Returnly indeholder blandt andet:
+- Oversigt over brugerens køb
+- Registrering af nye køb
+- Automatisk beregning af antal dage til returfristen
+- Mulighed for at vælge et screenshot af en ordrebekræftelse
+- Permanent lagring af køb med AsyncStorage
+- Mulighed for at markere et køb som returneret
+- Lokal påmindelse før en returfrist
+- Valg mellem påmindelse 1, 3 eller 7 dage før returfristen
+- Testnotifikation
+- Navigation direkte til det relevante køb, når brugeren trykker på en notifikation
+- Genbrugelig FormInput-komponent
 
-Screenshot-importen fungerer som en pre-MVP af en fremtidig funktion,
-hvor information fra ordrebekræftelser automatisk skal aflæses.
+Screenshot-funktionen kan på nuværende tidspunkt vælge og vise en ordrebekræftelse, men automatisk aflæsning af oplysninger fra billedet er endnu ikke implementeret.
 
 ## Teknologier
-
 - React Native
 - Expo
-- React Navigation / Native Stack
+- React Navigation
+- AsyncStorage
+- Expo Notifications
 - Expo ImagePicker
-- JavaScript
 
 ## Sådan køres projektet
 
@@ -53,13 +57,4 @@ npx expo start
 
 ## Demovideo
 Demovideo af Returnly:
-youtube.com/shorts/w_qdu6OtezE?is=FVf6eZtvpQuCjAO2&cbrd=1&ucbcb=1
-
-## Brugerinddragelse
-
-Produktidéen blev testet gennem en survey med 22 respondenter.
-
-Surveyet viste blandt andet, at manuel registrering af køb kunne være en
-barriere, mens automatisk registrering ville øge respondenternes
-tilbøjelighed til at bruge løsningen. Derfor blev MVP'en udvidet med
-screenshot-import via Expo ImagePicker.
+https://www.youtube.com/watch?v=WG_-jID0UTc

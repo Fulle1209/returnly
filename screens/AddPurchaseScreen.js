@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import {
   View,
   Text,
-  TextInput,
   Button,
   Alert,
   Image,
@@ -17,6 +16,9 @@ import * as ImagePicker from 'expo-image-picker';
 
 // Importerer appens fælles styling.
 import GlobalStyles from '../styles/GlobalStyles';
+
+// Importerer den genbrugelige FormInput-komponent.
+import FormInput from '../components/FormInput';
 
 // Komponenten modtager navigation samt funktionen til at tilføje et køb.
 export default function AddPurchaseScreen({
@@ -41,6 +43,7 @@ export default function AddPurchaseScreen({
 
   // Gemmer URI'en til det valgte screenshot.
   const [receiptImage, setReceiptImage] = useState(null);
+
 
   // Funktionen åbner telefonens billedbibliotek.
   const pickReceiptImage = async () => {
@@ -67,6 +70,7 @@ export default function AddPurchaseScreen({
     }
   };
 
+
   // Beregner antal dage mellem dags dato og returfristen.
   const calculateDaysLeft = (dateString) => {
 
@@ -86,6 +90,15 @@ export default function AddPurchaseScreen({
 
     // Konverterer den tredje del til år.
     const year = Number(parts[2]);
+
+    // Kontrollerer at datoens dele faktisk er tal.
+    if (
+      Number.isNaN(day) ||
+      Number.isNaN(month) ||
+      Number.isNaN(year)
+    ) {
+      return null;
+    }
 
     // Opretter et JavaScript Date-objekt for returfristen.
     const deadline =
@@ -109,6 +122,7 @@ export default function AddPurchaseScreen({
       difference / (1000 * 60 * 60 * 24)
     );
   };
+
 
   // Funktionen kaldes, når brugeren trykker "Tilføj køb".
   const handleAddPurchase = () => {
@@ -169,6 +183,9 @@ export default function AddPurchaseScreen({
 
       // Gemmer billedet, hvis brugeren har valgt et.
       receiptImage,
+
+      // Nye køb starter som ikke-returnerede.
+      returned: false,
     };
 
     // Sender det nye køb tilbage til App.js.
@@ -177,6 +194,7 @@ export default function AddPurchaseScreen({
     // Navigerer derefter til købsoverblikket.
     navigation.navigate('Purchases');
   };
+
 
   // Returnerer sidens interface i en ScrollView.
   return (
@@ -195,6 +213,7 @@ export default function AddPurchaseScreen({
         Tilføj købet manuelt eller importér et screenshot
         af din ordrebekræftelse.
       </Text>
+
 
       {/* Område til automatisk/fremtidig import. */}
       <View style={GlobalStyles.importBox}>
@@ -238,76 +257,58 @@ export default function AddPurchaseScreen({
 
       </View>
 
+
       {/* Overskrift til manuel registrering. */}
       <Text style={GlobalStyles.manualTitle}>
         Manuel indtastning
       </Text>
 
-      {/* Label til produktnavn. */}
-      <Text style={GlobalStyles.label}>
-        Produktnavn
-      </Text>
 
-      {/* Inputfelt til produktnavn. */}
-      <TextInput
-        style={GlobalStyles.input}
+      {/* Genbrugeligt inputfelt til produktnavn. */}
+      <FormInput
+        label="Produktnavn"
         placeholder="Fx Nike Air Max"
         value={product}
         onChangeText={setProduct}
       />
 
-      {/* Label til butik. */}
-      <Text style={GlobalStyles.label}>
-        Butik
-      </Text>
 
-      {/* Inputfelt til butik. */}
-      <TextInput
-        style={GlobalStyles.input}
+      {/* Genbrugeligt inputfelt til butik. */}
+      <FormInput
+        label="Butik"
         placeholder="Fx Zalando"
         value={store}
         onChangeText={setStore}
       />
 
-      {/* Label til pris. */}
-      <Text style={GlobalStyles.label}>
-        Pris
-      </Text>
 
-      {/* Inputfelt med numerisk tastatur. */}
-      <TextInput
-        style={GlobalStyles.input}
+      {/* Genbrugeligt inputfelt til pris. */}
+      <FormInput
+        label="Pris"
         placeholder="Fx 899"
-        keyboardType="numeric"
         value={price}
         onChangeText={setPrice}
+        keyboardType="numeric"
       />
 
-      {/* Label til købsdato. */}
-      <Text style={GlobalStyles.label}>
-        Købsdato
-      </Text>
 
-      {/* Inputfelt til købsdato. */}
-      <TextInput
-        style={GlobalStyles.input}
-        placeholder="Fx 21/09/2026"
+      {/* Genbrugeligt inputfelt til købsdato. */}
+      <FormInput
+        label="Købsdato"
+        placeholder="Fx 26/10/2026"
         value={purchaseDate}
         onChangeText={setPurchaseDate}
       />
 
-      {/* Label til returfrist. */}
-      <Text style={GlobalStyles.label}>
-        Returfrist
-      </Text>
 
-      {/* Inputfelt til returfrist. */}
-      <TextInput
-        style={GlobalStyles.input}
-        placeholder="Fx 15/10/2026"
+      {/* Genbrugeligt inputfelt til returfrist. */}
+      <FormInput
+        label="Returfrist"
+        placeholder="Fx 25/11/2026"
         value={returnDeadline}
         onChangeText={setReturnDeadline}
       />
+
 
       {/* Container omkring knappen. */}
       <View style={GlobalStyles.buttonContainer}>

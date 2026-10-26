@@ -231,7 +231,15 @@ const GlobalStyles = StyleSheet.create({
     color: '#333333',
   },
 
+  returnedText: {
+  fontSize: 16,
+  fontWeight: 'bold',
+  marginTop: 8,
+},
+
 });
+
+
 
 // Eksporterer styles, så de kan bruges i alle screens.
 export default GlobalStyles;
